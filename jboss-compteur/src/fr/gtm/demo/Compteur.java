@@ -1,5 +1,6 @@
 package fr.gtm.demo;
 
+import java.io.Serializable;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
@@ -8,10 +9,10 @@ import javax.annotation.PreDestroy;
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import javax.ejb.StatefulTimeout;
+import javax.enterprise.context.SessionScoped;
 
-@Stateful
-@StatefulTimeout(unit = TimeUnit.MINUTES, value = 10)
-public class Compteur {
+@SessionScoped
+public class Compteur implements Serializable {
 	private int value;
 	public static final Logger tchikita = Logger.getLogger("Demo");
 

@@ -29,18 +29,8 @@ public class SessionListener implements HttpSessionListener {
      */
     public void sessionCreated(HttpSessionEvent se)  { 
     	HttpSession session = se.getSession();
-    	session.setMaxInactiveInterval(1*60);
+    	session.setMaxInactiveInterval(2*60);
     	tchikita.info(">>>> Session demarée : "+se.getSession().getId());
-			try {
-				//InitialContext => contexte JNDI du serveur
-				InitialContext ctx = new InitialContext();
-				//recherche de l'EJB par le nom donné par le serveur
-				//=> déclenche la construction de l'objet
-				Compteur compteur = (Compteur) ctx.lookup("java:app/jboss-compteur/Compteur");
-				session.setAttribute("compteur", compteur);
-			} catch (NamingException e) {
-				tchikita.log(Level.SEVERE, "Erreur de création de session",e);
-			}
 		}
 
 	/**
@@ -48,10 +38,6 @@ public class SessionListener implements HttpSessionListener {
      */
     public void sessionDestroyed(HttpSessionEvent se)  { 
         Compteur compteur = (Compteur) se.getSession().getAttribute("compteur");
-        		if(compteur != null) {
-        			compteur.remove();
         			tchikita.info(">>>> Session terminée : "+se.getSession().getId());
         		}
     }
-	
-}
